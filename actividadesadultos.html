@@ -1,0 +1,66 @@
+<!-- actividadesadultos.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploraEducativa - Actividades para Adultos Mayores</title>
+    <style>
+        body {
+            font-family: 'Cursive', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+        }
+
+        .content {
+            text-align: center;
+            color: #000000;
+        }
+
+        .juegos-bg {
+            background: url(fondoancianos.jpg) no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .juego-link {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #87CEEB; /* Color del fondo del enlace (se puede cambiar) */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tab {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body class="juegos-bg">
+
+    <div class="content">
+        <div class="header">
+            <h1>ExploraEducativa - Actividades para Adultos Mayores</h1>
+            <p>Explora actividades educativas y divertidas diseñadas para adultos mayores.</p>
+        </div>
+
+        <!-- Enlace a la página de Juego 1A -->
+        <div class="juego-link" onclick="window.location.href='juego1a.html'">
+            <h2>Juego Educativo 1A</h2>
+            <p>Haz clic aquí para jugar al Juego 1A.</p>
+        </div>
+
+        <!-- Puedes agregar más enlaces a otras actividades según sea necesario -->
+
+    </div>
+
+</body>
+</html>

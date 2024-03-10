@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploraEducativa - Niños</title>
+    <style>
+        body {
+            font-family: 'Cursive', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+        }
+
+        .content {
+            text-align: center;
+            color: #000000;
+        }
+
+        .logo {
+            width: 330px;
+            height: auto;
+        }
+
+        .ninos-bg {
+            background: url("fondoInf.jpg") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .ejercicios {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .juegos-link {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #87CEEB; /* Color del fondo del enlace (se puede cambiar) */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tab {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body class="ninos-bg">
+
+    <div class="content">
+        <div class="header">
+            <img class="logo" src="logoExplora.png" alt="Logo de la Empresa">
+            <h1>ExploraEducativa - Niños</h1>
+            <p>Bienvenido al mundo de aprendizaje divertido para niños.</p>
+        </div>
+
+        
+
+        <!-- Enlace a la página de Juegos -->
+        <div class="juegos-link" onclick="window.location.href='juegos.html'">
+            <h2>¡Descubre Juegos Divertidos para Niños!</h2>
+            <p>Haz clic aquí para explorar nuestra colección de juegos.</p>
+        </div>
+    </div>
+
+</body>
+</html>

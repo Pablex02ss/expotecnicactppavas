@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploraEducativa - Juego 1</title>
+    <style>
+        body {
+            font-family: 'Cursive', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+        }
+
+        .juego1-bg {
+            background: url("fondosumas.avif") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .content {
+            text-align: center;
+            color: #000000;
+            background: none; /* Elimina el fondo del contenido */
+        }
+
+        .juego-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #87CEEB; /* Color del fondo del juego (se puede cambiar) */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .pregunta {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .respuesta-input {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .boton-verificar {
+            margin-top: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .boton-verificar:hover {
+            background-color: #218838;
+        }
+
+        .mensaje {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .puntos {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .boton-reiniciar {
+            margin-top: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .boton-reiniciar:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body class="juego1-bg">
+
+    <div class="content">
+        <div class="header">
+            <h1>ExploraEducativa - Juego 1</h1>
+            <p>Bienvenido al juego interactivo de sumas.</p>
+        </div>
+
+        <!-- Contenido del juego 1 -->
+        <div class="juego-container">
+            <div class="pregunta" id="pregunta">Resuelve la siguiente suma: 5 + 5</div>
+
+            <!-- Input para la respuesta -->
+            <input type="number" class="respuesta-input" id="respuesta" placeholder="Ingresa tu respuesta">
+
+            <!-- Botón para verificar la respuesta -->
+            <button class="boton-verificar" onclick="verificarRespuesta()">Verificar</button>
+
+            <!-- Mensaje de resultado y puntos -->
+            <div class="mensaje" id="mensaje"></div>
+            <div class="puntos" id="puntos">Puntos: 0</div>
+
+            <!-- Botón para reiniciar el juego -->
+            <button class="boton-reiniciar" onclick="reiniciarJuego()">Reiniciar Juego</button>
+        </div>
+    </div>
+
+    <script>
+        var puntos = 0;
+        var sumasRestantes = 5; // Cambiado a 5 sumas
+        var respuestas = [10, 6, 12, 12, 9]; // Lista de respuestas correctas
+        var sumas = ["5 + 5", "4 + 2", "8 + 4", "6 + 6", "7 + 2"]; // Lista de sumas
+
+        function generarNuevaPregunta() {
+            // Obtener la suma actual
+            var sumaActual = sumas[sumas.length - sumasRestantes];
+
+            // Actualizar el texto de la pregunta
+            document.getElementById('pregunta').innerHTML = 'Resuelve la siguiente suma: ' + sumaActual;
+
+            // Devolver la respuesta correcta
+            return respuestas[respuestas.length - sumasRestantes];
+        }
+
+        function verificarRespuesta() {
+            // Obtener la respuesta ingresada por el usuario y convertirla a número
+            var respuestaUsuario = parseInt(document.getElementById('respuesta').value);
+
+            // Calcular la respuesta correcta para la pregunta actual
+            var respuestaCorrecta = generarNuevaPregunta();
+
+            // Verificar si la respuesta es correcta
+            if (respuestaUsuario === respuestaCorrecta) {
+                // Sumar puntos y mostrar mensaje de éxito
+                puntos += 10;
+                sumasRestantes--;
+
+                document.getElementById('mensaje').innerHTML = '¡Respuesta correcta! ¡Bien hecho!';
+            } else {
+                // Mostrar mensaje de error con la respuesta correcta
+                document.getElementById('mensaje').innerHTML = 'Respuesta incorrecta. La correcta es: ' + respuestaCorrecta;
+            }
+
+            // Actualizar puntos y sumas restantes
+            document.getElementById('puntos').innerHTML = 'Puntos: ' + puntos;
+            document.getElementById('respuesta').value = '';
+
+            // Verificar si hay más sumas restantes
+            if (sumasRestantes > 0) {
+                generarNuevaPregunta();
+            } else {
+                // Si no hay más sumas, mostrar mensaje de fin del juego
+                document.getElementById('pregunta').innerHTML = '¡Fin del juego!';
+                // Ocultar botón de verificar y mostrar botón de reinicio
+                document.querySelector('.boton-verificar').style.display = 'none';
+                document.querySelector('.boton-reiniciar').style.display = 'block';
+            }
+        }
+
+        // Función para reiniciar el juego
+        function reiniciarJuego() {
+            puntos = 0;
+            sumasRestantes = 5;
+            document.getElementById('mensaje').innerHTML = '';
+            document.getElementById('puntos').innerHTML = 'Puntos: 0';
+            document.getElementById('pregunta').innerHTML = 'Resuelve la siguiente suma: 5 + 5';
+            // Mostrar botón de verificar y ocultar botón de reinicio
+            document.querySelector('.boton-verificar').style.display = 'block';
+            document.querySelector('.boton-reiniciar').style.display = 'none';
+            generarNuevaPregunta();
+        }
+
+        // Al cargar la página, generar la primera pregunta
+        window.onload = function() {
+            generarNuevaPregunta();
+        };
+    </script>
+
+</body>
+</html>

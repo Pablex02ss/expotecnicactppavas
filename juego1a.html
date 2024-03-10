@@ -1,0 +1,205 @@
+<!-- juego1a.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploraEducativa - Juego 1A</title>
+    <style>
+        body {
+            font-family: 'Cursive', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background: url(fondomemoria.jpeg) no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .memory-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+        }
+
+        .memory-card {
+            width: 100px;
+            height: 100px;
+            background-color: #87CEEB;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            perspective: 1000px;
+            transition: transform 0.5s;
+        }
+
+        .memory-card .front-face {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            transform: rotateY(180deg);
+            visibility: hidden;
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.hidden {
+            visibility: hidden;
+        }
+
+        #reset-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f00;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="reset-button" onclick="restartGame()">Reiniciar Juego</button>
+
+    <div class="memory-container" id="memory-container">
+        <!-- Repite las tarjetas para formar las parejas -->
+    </div>
+
+    <script>
+        const container = document.getElementById('memory-container');
+        const resetButton = document.getElementById('reset-button');
+
+        function createCard(id) {
+            const card = document.createElement('div');
+            card.classList.add('memory-card');
+            card.dataset.id = id;
+
+            const frontFace = document.createElement('div');
+            frontFace.classList.add('front-face');
+            frontFace.textContent = id;
+            card.appendChild(frontFace);
+
+            card.addEventListener('click', flipCard);
+
+            return card;
+        }
+
+        function generateCards() {
+            const cards = [];
+            for (let i = 1; i <= 8; i++) {
+                cards.push(createCard(i));
+                cards.push(createCard(i));
+            }
+            return cards;
+        }
+
+        function shuffleCards(cards) {
+            cards.forEach(card => {
+                card.style.order = Math.floor(Math.random() * cards.length);
+            });
+        }
+
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flipped');
+            this.children[0].style.visibility = 'visible';
+
+            if (!hasFlippedCard) {
+                // Primer clic
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+
+            // Segundo clic
+            secondCard = this;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            const isMatch = firstCard.dataset.id === secondCard.dataset.id;
+
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+
+            resetBoard();
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                firstCard.children[0].style.visibility = 'hidden';
+                secondCard.children[0].style.visibility = 'hidden';
+
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+
+            checkWin();
+        }
+
+        function checkWin() {
+            const flippedCards = Array.from(container.getElementsByClassName('flipped'));
+
+            if (flippedCards.length === 16) {
+                setTimeout(() => {
+                    alert('¡Felicidades! ¡Ganaste!');
+                }, 500);
+            } else {
+                lockBoard = false;
+            }
+        }
+
+        function restartGame() {
+            const cards = generateCards();
+            container.innerHTML = '';
+            cards.forEach(card => container.appendChild(card));
+
+            setTimeout(() => {
+                shuffleCards(cards);
+                unlockBoard();
+            }, 1000);
+        }
+
+        function unlockBoard() {
+            lockBoard = false;
+        }
+
+        restartGame(); // Iniciar el juego automáticamente al cargar la página
+    </script>
+
+</body>
+</html>
